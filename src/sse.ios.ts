@@ -1,6 +1,6 @@
 import { BaseSSE } from './sse.common';
 import { Observable, fromObject } from 'tns-core-modules/data/observable';
-declare const WeakRef, EventSource;
+declare const WeakRef, IKEventSource;
 export class SSE extends BaseSSE {
   private _headers: NSDictionary<any, any>;
   private _url: any;
@@ -11,32 +11,32 @@ export class SSE extends BaseSSE {
     this.events = fromObject({});
     this._url = url;
     this._headers = NSDictionary.alloc().initWithDictionary(headers);
-    this._es = EventSource.alloc().initWithUrlHeaders(this._url, this._headers);
+    this._es = IKEventSource.alloc().initWithUrlHeaders(this._url, this._headers);
     const ref = new WeakRef(this);
     const owner = ref.get();
     this._es.onMessage((id, event, data) => {
       owner.events.notify({
         eventName: 'onMessage',
-        object: fromObject({
+        object: {
           event: event,
-          message: { data: data, lastEventId: id }
-        })
+          data
+        }
       });
     });
     this._es.onError(err => {
       owner.events.notify({
         eventName: 'onError',
-        object: fromObject({
+        object: {
           error: err.localizedDescription
-        })
+        }
       });
     });
     this._es.onOpen(() => {
       owner.events.notify({
         eventName: 'onConnect',
-        object: fromObject({
+        object: {
           connected: true
-        })
+        }
       });
     });
   }
@@ -47,10 +47,10 @@ export class SSE extends BaseSSE {
     this._es.addEventListenerHandler(event, (id, event, data) => {
       owner.events.notify({
         eventName: 'onMessage',
-        object: fromObject({
+        object: {
           event: event,
-          message: { data: data, lastEventId: id }
-        })
+          data
+        }
       });
     });
   }
