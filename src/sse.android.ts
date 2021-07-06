@@ -20,48 +20,44 @@ export class SSE extends BaseSSE {
             onConnect() {
                 this.owner.events.notify({
                     eventName: 'onConnect',
-                    object: fromObject({
+                    object: {
                         connected: true
-                    })
+                    }
                 });
             },
             onMessage(event, message) {
                 this.owner.events.notify({
                     eventName: 'onMessage',
-                    object: fromObject({
+                    object: {
                         event: event.toString(),
-                        message: {
-                            data: message.data,
-                            lastEventId: message.lastEventId,
-                            origin: message.origin
-                        }
-                    })
+                        data: message.data,
+                    }
                 });
             },
 
             onComment(comment) {
                 this.owner.events.notify({
                     eventName: 'onComment',
-                    object: fromObject({
+                    object: {
                         comment: comment
-                    })
+                    }
                 });
             },
 
             onError(e) {
                 this.owner.events.notify({
                     eventName: 'onError',
-                    object: fromObject({
+                    object: {
                         error: e.getMessage()
-                    })
+                    }
                 });
             },
             onClosed(willReconnect) {
                 this.owner.events.notify({
                     eventName: 'willReconnect',
-                    object: fromObject({
+                    object: {
                         willReconnect: willReconnect
-                    })
+                    }
                 });
             }
         });

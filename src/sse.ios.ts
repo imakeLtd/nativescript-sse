@@ -1,6 +1,6 @@
+import { fromObject, Observable } from '@nativescript/core';
 import { BaseSSE } from './sse.common';
-import { Observable, fromObject } from '@nativescript/core';
-declare const WeakRef, EventSource;
+declare const WeakRef, IKEventSource;
 export class SSE extends BaseSSE {
   private _headers: NSDictionary<any, any>;
   private _url: NSURL;
@@ -12,42 +12,33 @@ export class SSE extends BaseSSE {
     this.events = fromObject({});
     this._url = NSURL.alloc().initWithString(url);
     this._headers = NSDictionary.alloc().initWithDictionary(headers);
-    this._es = EventSource.alloc().initWithUrlHeaders(this._url, this._headers);
-    console.log(this._es);
+    this._es = IKEventSource.alloc().initWithUrlHeaders(this._url, this._headers);
     const ref = new WeakRef(this);
     const owner = ref.get();
     this._es.onMessage((id, event, data) => {
       this.lastEventId = id;
       owner.events.notify({
         eventName: 'onMessage',
-        object: fromObject({
+        object: {
           event: event,
-          message: { data: data, lastEventId: id }
-        })
+          data
+        }
       });
     });
-    this._es.onCompleteBridged((statusCode, shouldReconnect, err) => {
-      if (err) {
-        owner.events.notify({
-          eventName: 'onError',
-          object: fromObject({
-            error: err.localizedDescription
-          })
-        });
-      }
-
-      // NOTE we are not using the shouldReconnect boolean here
-      // so that we match how the android implementation works
-      setTimeout(() => {
-        this._es.connectWithLastEventId(this.lastEventId);
-      }, 2000);
+    this._es.onError(err => {
+      owner.events.notify({
+        eventName: 'onError',
+        object: {
+          error: err.localizedDescription
+        }
+      });
     });
     this._es.onOpen(() => {
       owner.events.notify({
         eventName: 'onConnect',
-        object: fromObject({
+        object: {
           connected: true
-        })
+        }
       });
     });
     this.connect();
@@ -59,10 +50,10 @@ export class SSE extends BaseSSE {
     this._es.addEventListenerHandler(event, (id, event, data) => {
       owner.events.notify({
         eventName: 'onMessage',
-        object: fromObject({
+        object: {
           event: event,
-          message: { data: data, lastEventId: id }
-        })
+          data
+        }
       });
     });
   }
