@@ -1,13 +1,13 @@
 {
-  "name": "nativescript-sse",
+  "name": "@imakeltd/sse",
   "version": "4.0.3",
   "description": "A NativeScript client for the Server Sent Events (SSE)",
   "main": "sse",
   "typings": "index.d.ts",
   "nativescript": {
     "platforms": {
-      "android": "4.0.0",
-      "ios": "4.0.1"
+      "android": "7.0.0",
+      "ios": "7.0.0"
     }
   },
   "scripts": {
@@ -41,11 +41,17 @@
     "name": "Osei Fortune",
     "email": "fortune.osei@yahoo.com"
   },
+  "contributors": [
+    {
+      "name": "imakeltd",
+      "url": "https://github.com/imakeLtd"
+    }
+  ],
   "bugs": {
-    "url": "https://github.com/triniwiz/nativescript-sse/issues"
+    "url": "https://github.com/imakeltd/nativescript-sse/issues"
   },
   "license": "Apache-2.0",
-  "homepage": "https://github.com/triniwiz/nativescript-sse",
+  "homepage": "https://github.com/imakeltd/nativescript-sse",
   "readmeFilename": "README.md",
   "devDependencies": {
     "@nativescript/core": "7.0.13",
@@ -58,6 +64,8 @@
     "tslint": "^5.20.1",
     "typescript": "~3.9.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ts-node": "^9.0.0"
+  },
   "bootstrapper": "nativescript-plugin-seed"
 }
