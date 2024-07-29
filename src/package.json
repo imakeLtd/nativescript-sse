@@ -1,31 +1,29 @@
 {
-  "name": "nativescript-sse",
-  "version": "4.0.2",
+  "name": "@imakeltd/sse",
+  "version": "5.0.0",
   "description": "A NativeScript client for the Server Sent Events (SSE)",
   "main": "sse",
   "typings": "index.d.ts",
   "nativescript": {
     "platforms": {
-      "android": "4.0.0",
-      "ios": "4.0.1"
+      "android": "8.0.0",
+      "ios": "8.0.1"
     }
   },
   "scripts": {
-    "tsc": "npm i && tsc",
-    "build": "npm run tsc && npm run build.native",
-    "build.native": "node scripts/build-native.js",
-    "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
-    "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**' --exclude '**/platforms/**'",
-    "prepack": "npm run build.native",
-    "demo.ios": "npm i && cd ../demo && tns run ios",
-    "demo.android": "npm i && cd ../demo && tns run android",
-    "demo.reset": "cd ../demo && npx rimraf -- hooks node_modules platforms package-lock.json",
-    "plugin.prepare": "npm run build && cd ../demo && tns plugin remove nativescript-sse && tns plugin add ../src",
-    "clean": "npm run demo.reset && npx rimraf -- node_modules package-lock.json && npm i",
+    "tsc": "tsc -skipLibCheck",
+    "build": "npm i && tsc",
     "test.android": "npm i && npm run tsc && npm run tslint && cd ../demo && tns build android && tns test android --justlaunch",
     "test.ios": "npm i && npm run tsc && npm run tslint && cd ../demo && tns build ios && tns test ios --justlaunch",
+    "tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/+(node_modules|typings)/**\"",
     "plugin.link": "npm link && cd ../demo && npm link nativescript-sse && cd ../src",
-    "plugin.tscwatch": "npm run tsc -- -w"
+    "plugin.tscwatch": "npm run tsc -- -w",
+    "demo.ios": "npm i && npm run tsc && cd ../demo && tns run ios --syncAllFiles",
+    "demo.android": "npm i && npm run tsc && cd ../demo && tns run android --syncAllFiles",
+    "demo.reset": "cd ../demo && rimraf platforms",
+    "plugin.prepare": "npm run tsc && cd ../demo && tns plugin remove nativescript-sse && tns plugin add ../src",
+    "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
+    "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/+(node_modules|typings)/**'"
   },
   "keywords": [
     "NativeScript",
@@ -42,18 +40,18 @@
     "email": "fortune.osei@yahoo.com"
   },
   "bugs": {
-    "url": "https://github.com/triniwiz/nativescript-sse/issues"
+    "url": "https://github.com/imakeltd/nativescript-sse/issues"
   },
   "license": "Apache-2.0",
-  "homepage": "https://github.com/triniwiz/nativescript-sse",
+  "homepage": "https://github.com/imakeltd/nativescript-sse",
   "readmeFilename": "README.md",
   "devDependencies": {
-    "tns-core-modules": "^6.3.2",
-    "tns-platform-declarations": "^6.3.2",
-    "typescript": "~3.7.4",
+    "tns-core-modules": "^4.0.0",
+    "tns-platform-declarations": "^4.0.0",
+    "typescript": "~2.6.0",
     "prompt": "^1.0.0",
     "rimraf": "^2.5.0",
-    "tslint": "^5.20.1",
+    "tslint": "^5.0.0",
     "semver": "^5.5.0"
   },
   "dependencies": {},

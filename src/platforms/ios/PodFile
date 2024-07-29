@@ -1,4 +1,4 @@
-pod 'IKEventSource', :git => 'https://github.com/flypapertech/EventSource', :branch => 'expose-methods-to-objc'
+pod 'IKEventSource', :git => 'https://github.com/imakeLtd/EventSource/', :branch => 'bevie'
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
